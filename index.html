@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      //$("form").submit(function (e) {
+      $(document).ready(function () {
+        $('[name="Submit"]').click(function (e) {
+          alert("lähetys");
+
+          const sana = {
+            fin: $("#fin").val(),
+            eng: $("#eng").val(),
+          };
+
+          $.ajax({
+            type: "POST",
+            url: "http://localhost:3000/sanakirja",
+            dataType: "json",
+            data: JSON.stringify(sana),
+            contentType: "application/json",
+          })
+            .done((data) => {
+              console.log({ data });
+            })
+            .fail((err) => {
+              console.error(err);
+            })
+            .always(() => {
+              console.log("always called");
+            });
+        });
+        e.preventDefault();
+      });
+    </script>
+    <title>Artistit</title>
+  </head>
+  <body>
+    <form name="form">
+      <label for="fin">Suomeksi</label>
+      <input type="text" id="fin" name="fin" />
+      <label for="eng">Englanniksi</label>
+      <input type="text" id="eng" name="eng" />
+      <input name="Submit" type="button" value="Tallenna" />
+    </form>
+  </body>
+</html>
